@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #ifndef ITCR_SRC_PLUGINS_ROISEGMENTATION_H
 #define ITCR_SRC_PLUGINS_ROISEGMENTATION_H
 
@@ -70,7 +69,6 @@ namespace sedeen {
 
 } // namespace sedeen
 
-=======
 #ifndef ITCR_SRC_PLUGINS_ROISEGMENTATION_H
 #define ITCR_SRC_PLUGINS_ROISEGMENTATION_H
 
@@ -142,5 +140,4 @@ namespace sedeen {
 
 } // namespace sedeen
 
->>>>>>> 6c9cecd... Initial commit
 #endif // ifndef ITCR_SRC_PLUGINS_ROISEGMENTATION_H
