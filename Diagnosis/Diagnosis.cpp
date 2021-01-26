@@ -47,16 +47,20 @@ namespace sedeen {
 
 			// Create CSV file option and bind member to UI
 			auto openFileDialogOptions = sedeen::file::FileDialogOptions();
-			openFileDialogOptions.caption = "Select Co-occurence Features (.csv) file for prediction";
+			openFileDialogOptions.caption = "Select Co-occurence Features (.csv) or segmentation label image for prediction";
 			openFileDialogOptions.startDir = image->getMetaData()->get(image::StringTags::SOURCE_DESCRIPTION, 0);
 			openFileDialogOptions.flags = sedeen::file::FileDialogFlags::MultiSelect;
-			auto csvDialogFilter = sedeen::file::FileDialogFilter();
-			csvDialogFilter.name = "Co-occurence Features(*SuperpixelCooccurrence.csv)";
-			csvDialogFilter.extensions.push_back("csv");
-			openFileDialogOptions.filters.push_back(csvDialogFilter);
+			auto csvDialogFilter1 = sedeen::file::FileDialogFilter();
+			csvDialogFilter1.name = "Co-occurence Features(*SuperpixelCooccurrence.csv)";
+			csvDialogFilter1.extensions.push_back("csv");
+			openFileDialogOptions.filters.push_back(csvDialogFilter1);
+			auto csvDialogFilter2 = sedeen::file::FileDialogFilter();
+			csvDialogFilter2.name = "Segmentation label(*_seg_label.png)";
+			csvDialogFilter2.extensions.push_back("png");
+			openFileDialogOptions.filters.push_back(csvDialogFilter2);
 			csv_location_ = createOpenFileDialogParameter(*this,
-				"Co-occurence Features Paths",
-				"Select Co-occurence Features for Diagnosis",
+				"Co-occurence Features / Seg Label Image Paths",
+				"Select Co-occurence Features or Segmentation Label Image for Diagnosis",
 				openFileDialogOptions,
 				false);
 

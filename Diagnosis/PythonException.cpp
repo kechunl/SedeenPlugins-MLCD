@@ -28,12 +28,16 @@ PythonException::translateException()
     std::string excType , excValue , excTraceback ;
     PyObject *pExcType , *pExcValue , *pExcTraceback ;
     PyErr_Fetch( &pExcType , &pExcValue , &pExcTraceback ) ;
+    int line;
+    char lineno[50];
+    // Error type
     if ( pExcType != NULL )
     {
         PythonObject obj( pExcType , true ) ;
         std::shared_ptr<PythonObject> attrObj( obj.py_GetAttr( "__name__" ) ) ;
         excType = attrObj->py_ReprVal() ;
     }
+    // Errow Message
     if ( pExcValue != NULL )
     {
         PythonObject obj( pExcValue , true ) ;
@@ -43,6 +47,14 @@ PythonException::translateException()
     {
         PythonObject obj( pExcTraceback , true ) ;
         excTraceback = obj.py_ReprVal() ;
+
+        PyTracebackObject* traceback = (PyTracebackObject*)pExcTraceback;
+        while (traceback->tb_next != NULL)
+            traceback = traceback->tb_next;
+
+        line = traceback->tb_lineno;
+        sprintf(lineno, "%d", line);
+        //const char* filename = PyUnicode_AsUTF8(traceback->tb_frame->code->co_filename);
     }
 
     // translate the error into a C++ exception
@@ -50,6 +62,8 @@ PythonException::translateException()
     buf << (excType.empty() ? "???" : excType) ;
     if ( ! excValue.empty() )
         buf << ": " << excValue ;
+    if ( ! excTraceback.empty())
+        buf << "line " << lineno;
     throw PythonException( buf.str() , excType , excValue , excTraceback ) ;
 }
 
